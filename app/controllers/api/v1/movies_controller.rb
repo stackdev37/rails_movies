@@ -12,6 +12,7 @@ module Api
     
       # GET /movies/1 or /movies/1.json
       def show
+        render json: @movie
       end
     
       # GET /movies/new
@@ -29,11 +30,9 @@ module Api
     
         respond_to do |format|
           if @movie.save
-            format.html { redirect_to movie_url(@movie), notice: "Movie was successfully created." }
-            format.json { render :show, status: :created, location: @movie }
+            render json: @movie, status: :created, location: @movie
           else
-            format.html { render :new, status: :unprocessable_entity }
-            format.json { render json: @movie.errors, status: :unprocessable_entity }
+            render json: @movie.errors, status: :unprocessable_entity
           end
         end
       end
@@ -42,11 +41,9 @@ module Api
       def update
         respond_to do |format|
           if @movie.update(movie_params)
-            format.html { redirect_to movie_url(@movie), notice: "Movie was successfully updated." }
-            format.json { render :show, status: :ok, location: @movie }
+            render json: @movie
           else
-            format.html { render :edit, status: :unprocessable_entity }
-            format.json { render json: @movie.errors, status: :unprocessable_entity }
+            render json: @movie.errors, status: :unprocessable_entity
           end
         end
       end
@@ -54,11 +51,6 @@ module Api
       # DELETE /movies/1 or /movies/1.json
       def destroy
         @movie.destroy
-    
-        respond_to do |format|
-          format.html { redirect_to movies_url, notice: "Movie was successfully destroyed." }
-          format.json { head :no_content }
-        end
       end
     
       private
